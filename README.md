@@ -44,5 +44,5 @@ kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl versio
 kubectl get pods --all-namespaces
 
 # Adding nodes
-kubeadm join <<master IP>>:6443 --token 83grri.na11jdbbmyplsyy1 --discovery-token-ca-cert-hash sha256:<<master token>> 
+Paste master init results to add nodes.
 
