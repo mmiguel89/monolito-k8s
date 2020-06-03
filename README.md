@@ -1,31 +1,28 @@
 # monolito-k8s
-Kubernetes microservices example.
+Kubernetes microservices example.<br/>
 https://dev.to/nathanbland/setting-up-a-kubernetes-cluster-live-stream-replay-with-notes-i10
 
 # K8s cluster
-K8sSrv: master kubernetes.
-K8sA: "A" node.
-K8sB: "B" node.
+K8sSrv: master kubernetes.<br/>
+K8sA: "A" node.<br/>
+K8sB: "B" node.<br/>
 
 # Requisites
-3 Pcs / VMs "K8sSrv", "K8sA" and "K8sB".
-Ubuntu 18.04.3 LTS.
+3 Pcs / VMs "K8sSrv", "K8sA" and "K8sB".<br/>
+Ubuntu 18.04.3 LTS.<br/>
 ssh connection enabled.
 
 # Common master and nodes setup
-sudo apt-get update && sudo apt-get install -y apt-transport-https
-curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add
-sudo apt-add-repository "deb http://apt.kubernetes.io/ kubernetes-xenial main"
-sudo apt-get update
-sudo apt install kubectl kubeadm docker.io
-
-sudo swapoff -a
-vi /etc/fstab
-Remove the entire line with swap
-
-sudo systemctl enable docker.service
-
-sudo nano /etc/docker/daemon.json
+sudo apt-get update && sudo apt-get install -y apt-transport-https<br/>
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add<br/>
+sudo apt-add-repository "deb http://apt.kubernetes.io/ kubernetes-xenial main"<br/>
+sudo apt-get update<br/>
+sudo apt install kubectl kubeadm docker.io<br/>
+sudo swapoff -a<br/>
+vi /etc/fstab<br/>
+Remove the entire line with swap<br/>
+sudo systemctl enable docker.service<br/>
+sudo nano /etc/docker/daemon.json<br/>
 {
   "exec-opts": ["native.cgroupdriver=systemd"],
   "log-driver": "json-file",
@@ -33,23 +30,17 @@ sudo nano /etc/docker/daemon.json
     "max-size": "100m"
   },
   "storage-driver": "overlay2"
-}
-
-sudo mkdir -p /etc/systemd/system/docker.service.d
-sudo systemctl daemon-reload && sudo systemctl restart docker
-
-# Master init
+}<br/>
+sudo mkdir -p /etc/systemd/system/docker.service.d <br/>
+sudo systemctl daemon-reload && sudo systemctl restart docker<br/>
 sudo kubeadm config images pull
 
-sudo kubeadm init
-Results like
-mkdir -p $HOME/.kube
-sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
-sudo chown $(id -u):$(id -g) $HOME/.kube/config
-Copy result token 
-
-kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"
-
+# Master init
+sudo kubeadm init<br/>
+mkdir -p $HOME/.kube<br/>
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config<br/>
+sudo chown $(id -u):$(id -g) $HOME/.kube/config<br/>
+kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"<br/>
 kubectl get pods --all-namespaces
 
 # Adding nodes
